@@ -1,0 +1,73 @@
+<app-menu></app-menu>
+
+<div class="card flex justify-content-center m-3">
+    <p-button (click)="showDialogCreate()" label="Crear"/>
+    <p-dialog header="{{titulo}}" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem', height: '30rem' }">
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="matricula" class="font-semibold w-6rem">Matricula:</label>
+            <input pInputText [(ngModel)]="coche.matricula" id="matricula" class="flex-auto" autocomplete="off" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="numPuertas" class="font-semibold w-6rem">N° de puertas:</label>
+            <input pInputText [(ngModel)]="coche.numPuertas" id="numPuertas" class="flex-auto" autocomplete="off" />
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="tipo" class="font-semibold w-6rem">Tipo:</label>
+            <p-dropdown
+                [options]= "tipos"
+                [(ngModel)]= "coche.tipo"
+                optionLabel= "nombre"
+                placeholder= "Seleccione un Tipo" 
+                class= "flex-auto">
+            </p-dropdown>
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="marca" class="font-semibold w-6rem">Marca:</label>
+            <p-dropdown
+                [options]= "marcas"
+                [(ngModel)]= "coche.marca"
+                optionLabel= "nombre"
+                placeholder= "Seleccione una Marca" 
+                class= "flex-auto">
+            </p-dropdown>
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+            <p-button label="{{opc}}" (click)="opcion()" />
+        </div>
+    </p-dialog>
+</div>
+
+<div class="mt-3" style="width: 100%; display: flex; justify-content: center;">    
+    <div class="card" style="width: 75%;">
+        <p-table [value]="coches" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>ID</th>
+                    <th>MATRICULA</th>
+                    <th>N° PUERTAS</th>
+                    <th>TIPO</th>
+                    <th>MARCA</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.matricula }}</td>
+                    <td>{{ product.numPuertas }}</td>
+                    <td>{{ product.tipo?.nombre }}</td>
+                    <td>{{ product.marca?.nombre }}</td>
+                    <td>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded" (click)="showDialogEdit(product.id)"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="showDiaologDelete($event, product.id)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<p-toast />
+<p-confirmDialog />
+    
